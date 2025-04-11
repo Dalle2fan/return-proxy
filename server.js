@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const TARGET = 'https://return-policy.on.websim.ai'; 
+const TARGET = 'https://return-policy--frog.on.websim.ai'; 
 
 app.use(async (req, res) => {
   const targetURL = `${TARGET}${req.originalUrl}`;
