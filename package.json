@@ -1,13 +1,13 @@
 {
   "name": "return-policy-proxy",
   "version": "1.0.0",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "echo 'No start script needed for Vercel'",
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "node-fetch": "^3.3.2"
   },
-  "type": "module"
+  "homepage": "https://your-vercel-app.vercel.app/api/proxy"
 }
