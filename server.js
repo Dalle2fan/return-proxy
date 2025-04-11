@@ -4,19 +4,27 @@ import fetch from 'node-fetch';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/', async (req, res) => {
-  try {
-    const response = await fetch('https://return-policy.on.websim.ai/');
-    let html = await response.text();
+const TARGET = 'https://return-policy.on.websim.ai';
 
-    // Optional: sanitize or modify content here if needed
-    res.setHeader('Content-Type', 'text/html');
+app.use(async (req, res) => {
+  const targetURL = `${TARGET}${req.originalUrl}`;
+
+  try {
+    const response = await fetch(targetURL);
+    const contentType = response.headers.get('content-type');
+    const body = await response.buffer();
+
+    // Pass through headers, but override X-Frame-Options
+    res.setHeader('Content-Type', contentType || 'text/html');
     res.setHeader('X-Frame-Options', 'ALLOWALL');
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.send(html);
+    res.send(body);
   } catch (err) {
-    res.status(500).send('Error fetching original page');
+    console.error(err);
+    res.status(500).send('Proxy error');
   }
 });
 
-app.listen(PORT, () => console.log(`Proxy running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Proxy running on http://localhost:${PORT}`);
+});
